@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Become A Member</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--
+  Author:         Mihye Bang
+  File name:       registration.html
+  Date Created:   Summer 2021
+  Date Updated: Summer 2021
+  Version:         21.1
+  Purpose:         learning Javascript programming (SYST10199)
+  Copyright: 
+      This work is the intellectual property of Sheridan College. 
+      Any further copying and distribution outside of class must be within 
+      the copyright law. Posting to commercial sites for profit is prohibited.
+  References:
+      https://www.w3schools.com/howto/howto_css_register_form.asp
+      https://bajcar.dev.fast.sheridanc.on.ca/php10199/assign6_2021/content/registration.html
+  Description:
+      Registration for the new user that requires names, usernames, passwords, and so forth.
+  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        body {
+            font-family: "Kaushan Script", cursive;
+            background-color: #333940;
+        }
+
+        form {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        div>label,
+        fieldset {
+            text-align: left;
+            display: block;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Add padding to containers */
+        .container {
+            padding: 16px;
+            background-color: white;
+        }
+
+        /* Full-width input fields */
+        input[type=text],
+        input[type=tel],
+        input[type=password] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        input[type=text]:focus,
+        input[type=tel]:focus,
+        input[type=password]:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+
+        /* Overwrite default styles of hr */
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        /* Set a style for the buttons */
+        .registerbtn,
+        .cancelbtn {
+            color: white;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 45%;
+            opacity: 0.9;
+        }
+
+        .registerbtn {
+            background-color: darkgrey;
+        }
+
+        .cancelbtn {
+            background-color: #00cccc;
+        }
+
+        .registerbtn:hover {
+            opacity: 1;
+        }
+
+        /* Add a blue text color to links */
+        a {
+            color: dodgerblue;
+        }
+
+        /* Set a grey background color and center the text of the "sign in" section */
+        .signin {
+            background-color: #f1f1f1;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Become A Member</h1>
+    </header>
+    <nav>
+        <!-- going back to the public page-->
+        <a href="index_public.html">Back</a>
+    </nav>
+    <main>
+        <form action="/action_page.php">
+            <div class="container">
+                <h1>Register</h1>
+                <p>Please fill in this form to create an account.</p>
+                <hr>
+                <!-- label and input for the first name -->
+                <label for="fname"><b>First name</b></label>
+                <input type="text" placeholder="First Name(required)" name="fname" id="fname" required>
+
+                <!-- label and input for the email -->
+                <label for="email"><b>Email</b></label>
+                <input type="text" placeholder="Enter Email" name="email" id="email" required>
+
+                <!-- label and input for the phone number -->
+                <label for="phone"><b>Phone</b></label>
+                <input type="tel" placeholder="Phone (required)" name="phone" id="phone" required>
+
+                <!-- label and input for the username -->
+                <label for="username"><b>Choose user name</b></label>
+                <input type="text" placeholder="Enter your user name" name="username" id="username">
+
+                <!-- label and input for the password, with the restriction descripted on input -->
+                <label for="psw"><b>Password</b> </label>
+                <input type="password" placeholder="Enter Password" name="psw" id="psw"
+                    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                    required>
+
+                <!-- label and input for the repeating password -->
+                <label for="psw-repeat"><b>Repeat Password</b>
+                    <span id="matchingMsg" class="matchingMsg">
+                        Passwords Do Not Match!
+                    </span>
+                </label>
+                <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+                <!-- toggle to see the password -->
+                <label>
+                    <input type="checkbox" id="showPswCheck">
+                    show password
+                </label>
+                <!-- label and input for remembering user -->
+                <label>
+                    <input type="checkbox" checked="checked" name="remember">
+                    Remember me
+                </label>
+                <hr>
+                <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+
+                <!-- buttons to reset and submit the foam -->
+                <button type="reset" class="cancelbtn">Cancel</button>
+                <button type="submit" class="registerbtn">Sign Up</button>
+            </div>
+
+            <!-- when the user has the account, sign in -->
+            <div class="container signin">
+                <p>Already have an account? <a href="#">Sign in</a>.</p>
+            </div>
+        </form>
+    </main>
+    <footer>
+        <address>SYST10199 Web Programming &copy; Sheridan College</address>
+    </footer>
+
+    <script>
+        // execute after loading
+        window.onload = () => {
+            // save password to the variable
+            let pass1 = document.getElementById('psw');
+
+            // save repeating password to variable
+            let pass2 = document.getElementById('psw-repeat');
+
+            // save password toggle feature to variable
+            let showPswCheck = document.getElementById('showPswCheck');
+
+            //check the password
+            function checkPsw() {
+
+                // save message for matching
+                let message = document.getElementById('matchingMsg');
+
+                // the color for matching and nonmatching
+                let matchingColor = "#66cc66";
+                let unmatchingColor = "#ff6666";
+
+                // check if passwords are matching
+                if (pass1.value === pass2.value) { // if matching
+                    // change the background color for the field green
+                    pass2.style.backgroundColor = matchingColor;
+                    // print the matching message
+                    message.innerHTML = "Passwords Match"
+                } else { // if not matching
+                    // change the background color for the field green
+                    pass2.style.backgroundColor = unmatchingColor;
+                    // print the unmatching message
+                    message.innerText = "Passwords Do Not Match"
+                }
+            }
+
+            // check everytime entering the password
+            pass2.onkeyup = function () {
+                checkPsw();
+                return false;
+            };
+
+            // responsible for toggle function
+            showPswCheck.onchange = function () {
+                // if toggled, the input type is test to show password
+                if (pass1.type === "password") {
+                    pass1.type = "text";
+                    pass2.type = "text";
+                } else {
+                    // if not toggled, the password type doesn't show password
+                    pass1.type = "password";
+                    pass2.type = "password";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

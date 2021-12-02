@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Rock Paper Scissor Lizard Spock Game</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--
+Author: 		Mihye Bang
+File name: 		rpsls_game.html
+Date Created:	Summer 2021
+Date Updated:   Summer 2021
+Version: 		1.0
+Purpose: 		learning Javascript programming and applying the knowledges 
+				(SYST10199)
+Copyright: 
+    This work is the intellectual property of Sheridan College. 
+    Any further copying and distribution outside of class must be within 
+    the copyright law. Posting to commercial sites for profit is prohibited.
+References:
+	https://github.com/ebajcar/web10199_worksheets/tree/master/syst10199/projects/home2021
+	https://www.notion.so/Developing-game-of-RPSLS-3ee89452947843dd9d0662e3cc8d403d
+	https://bigbangtheory.fandom.com/wiki/Rock,_Paper,_Scissors,_Lizard,_Spock
+	
+Description:
+    The game page where the users will play Rock Paper Scissor Lizard Spock game.
+	It promps the user to choose one of the options, compare with the computer's choice, 
+	and displays the winner. After displaying the game, the user can restart the game.
+	It can also navigate back to the member's main page 
+-->
+
+	<!-- The same css style applies to the game page -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	<link rel="stylesheet" href="../css/style.css">
+
+
+
+</head>
+
+<body>
+	<!-- displays the title of the game -->
+	<header>
+		<h1>Game of <br>Rock Paper Scissors Lizard Spock</h1>
+	</header>
+	<nav>
+		<!-- going back to home page -->
+		<a href="../index_members.html">Home</a>
+	</nav>
+	<main>
+		<!-- displays the default screen to start a game -->
+		<div class="grid-container pick_container">
+
+			<!-- print the message and prompt the user to pick an option -->
+			<p>Welcome!</p>
+			<p>Your move... click on an image to choose!</p>
+
+			<div>
+				<!-- each image has onclick function that includes information of user pick 
+			and initiates the function-->
+				<image src="../images/rock1.png" class="but grid-item" style="display : inline-block"
+					onclick="game_case('ROCK')">
+					<image src="../images/paper1.png" class="but grid-item" style="display : inline-block"
+						onclick="game_case('PAPER')">
+						<image src="../images/scissors1.png" class="but grid-item" style="display : inline-block"
+							onclick="game_case('SCISSORS')">
+							<image src="../images/lizard1.png" class="but grid-item" style="display : inline-block"
+								onclick="game_case('LIZARD')">
+								<image src="../images/spock1.png" class="but grid-item" style="display : inline-block"
+									onclick="game_case('SPOCK')">
+			</div>
+		</div>
+
+		<!-- the other screen setting to display the game result -->
+		<div class="grid-container result_container" style="display : none">
+			<!-- disabled button -->
+			<button disabled>Stats</button>
+			<!-- go back to the default screen -->
+			<button onclick="restart_game()">Play Again!</button>
+
+			<!-- displays the computer pick on text -->
+			<p>Computer chose: <span class="computer_pick"></span> </p>
+
+			<!-- displays the computer pick on image -->
+			<image src="" class="computer_image" style="display : inline-block">
+
+				<!-- displays user pick on text -->
+				<p>You chose: <span class="my_pick"></span> </p>
+
+				<!-- displays user pick on image -->
+				<image src="" class="my_image" style="display : inline-block">
+
+					<!-- display the final result -->
+					<p class="who_won"></p>
+		</div>
+	</main>
+
+	<!-- displays the footer-->
+	<footer>
+		<address>SYST10199 Web Programming &copy; Sheridan College</address>
+	</footer>
+
+	<script>
+		// create case array for the computer pick cases and declare a computer pick case
+		let all_case = ['ROCK', 'PAPER', 'SCISSORS', 'LIZARD', 'SPOCK'];
+		let computerPick;
+
+		// create an object to decide the winning case on each user selection
+		let winning_case = {
+			'ROCK': ['SCISSORS', 'LIZARD'],
+			'PAPER': ['ROCK', 'SPOCK'],
+			'SCISSORS': ['PAPER', 'LIZARD'],
+			'LIZARD': ['PAPER', 'SPOCK'],
+			'SPOCK': ['SCISSORS', 'ROCK'],
+		}
+
+		// function that is initiated when the user clicks on each case
+		function game_case(my_pick) {
+			// switch the display to the result of the game page
+			document.querySelector('.pick_container').style.display = "none";
+			document.querySelector('.result_container').style.display = "block";
+
+			// generate random computer pick case from the array and save
+			computerPick = all_case[Math.trunc(Math.random() * 5)];
+
+			// display the text and image of the computer pick
+			document.querySelector('.computer_pick').innerHTML = computerPick.toLowerCase();
+			document.querySelector('.computer_image').src =
+				`../images/${computerPick.toLowerCase()}1.png`;
+
+			// display the text and image of the user pick
+			document.querySelector('.my_pick').innerHTML = my_pick.toLowerCase();
+			document.querySelector('.my_image').src = `../images/${my_pick.toLowerCase()}1.png`;
+
+			// decide the winner and print the result
+			if (my_pick === computerPick) {
+				// display the tie result when the user pick and computer pick are the same
+				document.querySelector('.who_won').innerHTML = 'IT\'S A TIE';
+			} else {    // cases when the user pick and computer pick are different
+				// cases where user pick meets a winning case in the object
+				if (winning_case[my_pick].includes(computerPick)) {
+					// display the winning message
+					document.querySelector('.who_won').innerHTML = 'YOU WIN!';
+				} else {
+					// cases where the user pick loses the computer pick and display losing message
+					document.querySelector('.who_won').innerHTML = 'MACHINE WINS!';
+				}
+			}
+		}
+
+		// switch back the display to start of the game page
+		function restart_game() {
+			document.querySelector('.pick_container').style.display = "block";
+			document.querySelector('.result_container').style.display = "none";
+		}
+
+	</script>
+</body>
+
+</html>

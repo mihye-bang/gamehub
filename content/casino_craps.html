@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Casino Craps</title>
+  <!--
+	Author: Ellen Bajcar
+	Program: craps_initial.html
+	Date: Summer 2016 
+	Date Updated: June 2021
+	Version: 0.1
+	Purpose: learning Javascript programming (SYST10199)
+	Copyright: 
+    This work is the intellectual property of Sheridan College. Any further copying and distribution outside of class must be within the copyright law. Posting to commercial sites for profit is prohibited.
+	Description:
+		Casino Craps game
+		initial code for assignment 4
+
+    Edit: Mihye Bang
+    Program: casino_craps.html
+	Date: July 03, 2021 
+	Version: 0.1
+	Purpose: learning Javascript programming and using the knowledges in programming (SYST10199)
+    Description: This page is for casino craps game which is to roll 2 dice and count wins and losses 
+        based on if the total matches natural or craps numbers. If the total does not match any of those,
+        it promps the users to roll the dice again until it matches the same number or 7.
+    Reference: https://ebajcar.github.io/web10199/slides_by_reveal/index_w4.html#/15
+    	       https://gist.github.com/ebajcar/528556cd7ea32185cbd9f2d23d8caa24
+    -->
+
+  <!-- keep the design consistency. design reference is the video in class 4 notes (class material)-->
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Kaushan+Script&display=swap");
+    @import url("https://fonts.googleapis.com/css?family=Akronim|Asap+Condensed|Barrio|Frijole|Luckiest+Guy|Princess+Sofia");
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #e0e0e0;
+      font-family: "Kaushan Script", cursive;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    main {
+      width: 100%;
+      margin: auto;
+      padding-top: 10px;
+      background-color: white;
+      padding-bottom: 10px;
+      min-height: 300px;
+    }
+
+    aside {
+      width: 60%;
+      text-align: center;
+      margin: auto;
+      font-size: 0.8em;
+    }
+
+    header h1 {
+      color: #6f6f6f;
+      font-family: "Kaushan Script", cursive;
+      font-size: 40px;
+      font-weight: 400;
+      margin: 20px 0 0;
+      text-align: center;
+      text-shadow: 1px 1px #00b2ce;
+    }
+
+    footer {
+      margin: auto;
+      padding-top: 10px;
+      margin-top: 10px;
+      text-align: center;
+      color: gray;
+      clear: both;
+    }
+
+    button {
+      color: #00b2ce;
+      background: #fff;
+      border-radius: 5px;
+      border: 1px solid #00b2ce;
+      font-size: 20px;
+      outline: 0 solid white;
+      width: 100%;
+    }
+
+    table {
+      margin: 0 auto;
+      background-color: transparent;
+      width: 400px;
+      text-align: center;
+    }
+
+    td {
+      background-color: transparent;
+      text-align: center;
+      vertical-align: bottom;
+    }
+
+    var {
+      font-size: 2rem;
+    }
+
+    main p {
+      margin: 0;
+      font-size: 0.8rem;
+    }
+
+    /* navigation */
+    nav {
+      margin: 20px auto;
+      width: 450px;
+      text-align: center;
+    }
+
+    nav a {
+      background-color: #a4a4a4;
+      color: #fff;
+      display: inline-block;
+      font-family: Lato, sans-serif;
+      font-size: 15px;
+      padding: 7px;
+      text-decoration: none;
+    }
+
+    nav a.active,
+    nav a:hover {
+      background: #c2c2c2;
+      color: #818181;
+      cursor: pointer;
+    }
+
+    .die {
+      display: inline-block;
+      padding: 10px;
+    }
+
+    .die img {
+      width: 80px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <!-- the title of the game -->
+    <h1>Play Casino Craps!</h1>
+  </header>
+  <nav>
+    <!-- navigate to other pages -->
+    <a href="../index_members.html">Home</a>
+    <a href="">New Game</a>
+    <a href="#">Help</a>
+  </nav>
+  <main>
+    <!-- display data using table -->
+    <table>
+      <tr>
+        <!-- the first row, first column of the table -->
+        <td colspan="2">
+          <div id="alpha" class="die">
+            <!-- display the first default dice image -->
+            <img id="alphaDice" alt="image for the first dice" src="../images/dice0.png">
+          </div>
+          <div id="bravo" class="die">
+            <!-- display the second default dice image -->
+            <img id="bravoDice" alt="image for the second dice" src="../images/dice0.png">
+          </div>
+        </td>
+        <!-- the first row, second column of the table -->
+        <td>
+          <!-- display the sum of the values of 2 dice -->
+          <small>You rolled&hellip;</small><br><var id="total">&nbsp;</var>
+        </td>
+      </tr>
+
+      <tr>
+        <!-- the second row, first column of the table -->
+        <td>
+          <!-- display statistics of the wins and losses count -->
+          <p>STATS</p>
+          <p>Wins: <span id="wins">0</span></p>
+          <p>Losses: <span id="losses">0</span></p>
+        </td>
+        <!-- the second row, second column of the table -->
+        <td colspan="2">
+          <!-- prompt the user to start the game -->
+          <p id="show" class="show">To start a game, roll the dice!</p>
+        </td>
+      </tr>
+
+      <tr>
+        <!-- the thrid row, first column of the table -->
+        <!-- the button to clear the statistics and prompt the user to start a game -->
+        <td><button id="clear" class="clear">Clear</button></td>
+        <!-- the third row, second column of the table -->
+        <td colspan="2">
+          <!-- the button to prompt the user to roll the dice -->
+          <button id="roll" class="roll">Roll the dice!</button>
+        </td>
+      </tr>
+    </table>
+  </main>
+
+  <!-- displays the footer-->
+  <footer>
+    <address>SYST10199 Web Programming &copy; Sheridan College</address>
+  </footer>
+  <aside hidden>
+    <h4>Instructions</h4>
+    <p>
+      Program to play the casino game of Craps. At the beginning of the game,
+      the player rolls a pair of dice and computes the total. If the total is
+      2, 3, or 12 (called "craps"), the player loses. If the total is 7 or 11
+      (called a "natural"), the player wins.
+    </p>
+    <p>
+      If the total is any other number, that number becomes the "point". From
+      here, the player keeps rolling the dice until (a) the point comes up
+      again, in which case the player wins, or (b) a 7 appears, in which case
+      the player loses. The numbers 2,3,11, and 12 no longer have special
+      significance after the first rolls.
+    </p>
+  </aside>
+
+  <script>
+    // declare dice1 and dice2 as 0
+    let dice1 = 0;
+    let dice2 = 0;
+
+    // declare the total and a function to calculate the total
+    let total;
+    function getTotal(dice1, dice2) {
+      total = dice1 + dice2;
+    }
+
+    // declare statistics for wins and losses counts
+    let statistics = {
+      win: 0,
+      lose: 0,
+    };
+
+    // set natural values into win case and crap values into lose case
+    const loseCase = [2, 3, 12];
+    const winCase = [7, 11];
+
+    // set the default value for the point
+    let point = 0;
+
+    // to get a random dice values from 1 to 6 
+    function getRandomDice() {
+      return Math.trunc(Math.random() * 6 + 1);
+    }
+
+    // when the dice are rolled
+    function rollDice() {
+      // executes only when we have point values that are not 0
+      if (point) {
+        // assign random dice value into dice1 and display a corresponding dice image
+        dice1 = getRandomDice();
+        document.getElementById("alphaDice").src = `../images/dice${dice1}.png`;
+
+        // assign random dice value into dice2 and display a corresponding dice image
+        dice2 = getRandomDice();
+        document.getElementById("bravoDice").src = `../images/dice${dice2}.png`;
+
+        // get the total using dice1 and dice2 values
+        getTotal(dice1, dice2);
+
+        // display the total in text
+        document.getElementById("total").innerText = total;
+
+        // the case when the user rolled the same as point value
+        if (total === point) {
+          // add 1 to the win case in statistics
+          statistics.win += 1;
+          // change point value back to 0
+          point = 0;
+          // display winning message
+          document.getElementById("show").innerHTML = "You made your point. You win!<br>To start a game, roll the dice!";
+          // display the updated winning cases
+          document.getElementById("wins").innerText = statistics.win;
+        }
+
+        // the case when the user rolled 7 after rolling point value
+        else if (total === 7) {
+          // add 1 to the lose case in statistics
+          statistics.lose += 1;
+          // change point value back to 0
+          point = 0;
+          // display losing message
+          document.getElementById("show").innerHTML = "That's 7. You lose!<br>To start a game, roll the dice!";
+          // display the updated losing cases
+          document.getElementById("losses").innerText = statistics.lose;
+        }
+
+        // the case when the user rolled values that are not 7 nor point value
+        else {
+        }
+      }
+
+      // when the point values are not 0
+      else {
+        // assign random dice value into dice1 and display a corresponding dice image
+        dice1 = getRandomDice();
+        document.getElementById("alphaDice").src = `../images/dice${dice1}.png`;
+        // assign random dice value into dice2 and display a corresponding dice image
+        dice2 = getRandomDice();
+        document.getElementById("bravoDice").src = `../images/dice${dice2}.png`;
+
+        // get the total using dice1 and dice2 values
+        getTotal(dice1, dice2);
+        // display the total value in text
+        document.getElementById("total").innerText = total;
+
+        // the case when the total is a natural value 2, 3 or 12
+        if (winCase.includes(total)) {
+          // add 1 to the win case
+          statistics.win += 1;
+          // display the winning message
+          document.getElementById("show").innerHTML = "That's a natural. You win!<br>To start a game, roll the dice!";
+          // display the updated winning cases
+          document.getElementById("wins").innerText = statistics.win;
+        }
+
+        // the case when the total is a crap value 7 or 11
+        else if (loseCase.includes(total)) {
+          // add 1 to the lose case
+          statistics.lose += 1;
+          // display the losing message
+          document.getElementById("show").innerHTML =
+            "That's craps. You lose!<br>To start a game, roll the dice!";
+          // display the updated losing cases
+          document.getElementById("losses").innerText = statistics.lose;
+        }
+
+        // If total is not craps nor natural, that number becomes the point
+        else {
+          // assign total into the point
+          point = total;
+          // display the point
+          document.getElementById("show").innerHTML = `Your point is ${point}.`;
+        } // end of if
+      }
+    }
+
+    // when the user clears the values
+    function clearAll() {
+      // reset the dice values to 0
+      dice1 = 0;
+      dice2 = 0;
+      // reset the total
+      getTotal(dice1, dice2);
+      // reset the statistics for wins and losses then display updates
+      statistics.win = 0;
+      statistics.lose = 0;
+      document.getElementById("wins").innerText = statistics.win;
+      document.getElementById("losses").innerText = statistics.lose;
+      // reset the prompt message
+      document.getElementById("show").innerHTML = "To start a game, roll the dice!";
+    }
+
+    // when the user clicks on the "roll the dice" button, the corresponding function executes
+    document.getElementById("roll").addEventListener("click", rollDice);
+    // when the user clicks on the "clear" button, the corresponding function executes
+    document.getElementById("clear").addEventListener("click", clearAll);
+  </script>
+</body>
+
+</html>

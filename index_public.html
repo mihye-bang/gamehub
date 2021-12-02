@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Public Home</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--
+Author:         Mihye Bang
+File name:       index_public.html
+Date Created:   Summer 2021
+Date Updated: Summer 2021
+Version:         21.1
+Purpose:         learning Javascript programming (SYST10199)
+Copyright: 
+    This work is the intellectual property of Sheridan College. 
+    Any further copying and distribution outside of class must be within 
+    the copyright law. Posting to commercial sites for profit is prohibited.
+References:
+    https://bajcar.dev.fast.sheridanc.on.ca/php10199/assign6_2021/index_login.html
+Description:
+    Login page that requires the user to enter their usernames and passwords.
+-->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .container1,
+    .container2 {
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container1 {
+      flex-direction: column;
+    }
+
+    .myModal {
+      font-family: Arial, Helvetica, sans-serif;
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.4);
+      padding-top: 60px;
+    }
+
+    .myModalCont {
+      background-color: #fefefe;
+      margin: 5% auto 15% auto;
+      border: 1px solid #888;
+      width: 50%;
+      animation: zoomModal 0.6s;
+    }
+
+    @keyframes zoomModal {
+      from {
+        transform: scale(0)
+      }
+
+      to {
+        transform: scale(1)
+      }
+    }
+
+    .loginBtn,
+    .cancelBtn {
+      color: white;
+      padding: 7px 20px;
+      margin: 6px 0;
+      border: none;
+      cursor: pointer;
+    }
+
+    .loginBtn {
+      background-color: var(--sherteal);
+    }
+
+    .cancelBtn {
+      background-color: #f44336;
+    }
+  </style>
+  <script>
+    function modalToggler() {
+      let modalElement = document.getElementById('login')
+      if (modalElement.style.display == 'none') {
+        modalElement.style.display = 'block'
+      } else {
+        modalElement.style.display = 'none'
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>Non-members Start Here</h1>
+  </header>
+  <nav>
+    <a href="#">About</a>
+    <a href="registration.html">Become A Member</a>
+    <button style="background-color: var(--sherteal); padding:7px; border:none; color:white;"
+      onclick="document.getElementById('login').style.display='block'">Login</button>
+  </nav>
+  <main>
+    <section class="grid-container">
+      <h2>Welcome!</h2>
+      <p>Join our community.</p>
+      <p>
+        Complete the registration to become a member. Members have access to a
+        variety of games, including Tic Tac Toe, Rock Paper Scissors, Bingo,
+        Hangman, Casino Craps, &hellip;
+      </p>
+      <p>If you are a member already, just log in.</p>
+    </section>
+  </main>
+  <!-- generates modal -->
+  <aside id="login" class="myModal" style="display: none;">
+    <span onclick="modalToggler()" class="close" title="Close Modal">X</span>
+
+    <!-- modal teatures-->
+    <form class="myModalCont" action="index_members.html">
+      <!-- container for modal feature -->
+      <div class="container1">
+        <!-- label and input for username -->
+        <label for="username">Username</label>
+        <input type="text" required placeholder="Enter Username" name="username" id="username"
+          style="padding: 12px 20px; width: 100%; box-sizing: border-box;">
+        <!-- label and input for password -->
+        <label for="psw">Password</label>
+        <input type="password" required placeholder="Enter Password" name="psw" id="psw"
+          style="padding: 12px 20px; width: 100%; box-sizing: border-box;">
+
+        <div>
+          <!-- login button -->
+          <button class="loginBtn">Log in</button>
+          <!-- remembering the user -->
+          <label>
+            <input type="checkbox" checked="checked" name="remember">
+            Remember me
+          </label>
+        </div>
+      </div>
+
+      <!-- cancel button -->
+      <div class="container2">
+        <button class="cancelBtn" onclick="modalToggler()">Cancel</button>
+        <button type="button" class="forgotpsw">Forgot password?</button>
+      </div>
+    </form>
+  </aside>
+  <footer>
+    <address>SYST10199 Web Programming &copy; Sheridan College</address>
+  </footer>
+
+</body>
+
+</html>
